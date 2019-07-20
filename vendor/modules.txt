@@ -2,6 +2,8 @@
 github.com/antchfx/htmlquery
 # github.com/antchfx/xpath v1.0.0
 github.com/antchfx/xpath
+# github.com/imroc/req v0.2.4
+github.com/imroc/req
 # golang.org/x/net v0.0.0-20190620200207-3b0461eec859
 golang.org/x/net/html
 golang.org/x/net/html/charset

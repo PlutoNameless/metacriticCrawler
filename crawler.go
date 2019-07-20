@@ -9,14 +9,19 @@ import (
 
 const urlPattern = "https://www.metacritic.com/browse/games/release-date/available/switch/metascore?view=condensed&page=%d"
 
-func (c *Client) GetSwitchScores() ([]Game, error) {
+func GetSwitchScores() ([]Game, error) {
 	pageNum := 0
-	htmlByte, err := c.sendNewRequest(fmt.Sprintf(urlPattern, pageNum))
+	r, err := sendNewRequest(fmt.Sprintf(urlPattern, pageNum))
 	if err != nil {
 		return nil, err
 	}
 
-	doc, err := htmlquery.Parse(strings.NewReader(string(htmlByte)))
+	s, err := r.ToString()
+	if err != nil {
+		return nil, err
+	}
+
+	doc, err := htmlquery.Parse(strings.NewReader(s))
 	if err != nil {
 		return nil, err
 	}
@@ -47,12 +52,17 @@ func (c *Client) GetSwitchScores() ([]Game, error) {
 	}
 
 	for i := pageNum + 1; i < finalPage; i++ {
-		htmlByte, err := c.sendNewRequest(fmt.Sprintf(urlPattern, i))
+		r, err := sendNewRequest(fmt.Sprintf(urlPattern, i))
 		if err != nil {
 			return nil, err
 		}
 
-		doc, err := htmlquery.Parse(strings.NewReader(string(htmlByte)))
+		s, err := r.ToString()
+		if err != nil {
+			return nil, err
+		}
+
+		doc, err := htmlquery.Parse(strings.NewReader(s))
 		if err != nil {
 			return nil, err
 		}
